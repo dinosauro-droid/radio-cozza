@@ -1,20 +1,85 @@
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Radio Cozza - LIVE</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Radio Cozza - Player</title>
+  <style>
+    body {
+      background-color: #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: 'Arial', sans-serif;
+      color: white;
+    }
+
+    .player-container {
+      position: relative;
+      width: 300px;
+      height: 300px;
+    }
+
+    .turntable {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle, #444 20%, #111 70%, #000 100%);
+      border: 8px solid #222;
+      box-shadow: 0 0 30px red, 0 0 60px yellow;
+      animation: spin 3s linear infinite;
+      animation-play-state: paused;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .live-button {
+      margin-top: 30px;
+      padding: 12px 24px;
+      background-color: red;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 0 15px red;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .live-button:hover {
+      background-color: #ff3333;
+      box-shadow: 0 0 25px yellow;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>🎧 RADIO COZZA</h1>
-    <button class="live-button">🔴 LIVE</button>
-    <audio id="player" controls autoplay>
-      <source src="http://localhost:8000/radio" type="audio/mp3" />
-      Il tuo browser non supporta l'audio.
-    </audio>
+  <div class="player-container">
+    <div class="turntable" id="vinyl"></div>
   </div>
+  <button class="live-button" onclick="toggleLive()">LIVE</button>
+  <audio id="audio" src="https://your-stream-url-here/live" preload="none"></audio>
+
+  <script>
+    const audio = document.getElementById('audio');
+    const vinyl = document.getElementById('vinyl');
+    let isPlaying = false;
+
+    function toggleLive() {
+      if (!isPlaying) {
+        audio.play();
+        vinyl.style.animationPlayState = 'running';
+        isPlaying = true;
+      } else {
+        audio.pause();
+        vinyl.style.animationPlayState = 'paused';
+        isPlaying = false;
+      }
+    }
+  </script>
 </body>
 </html>
